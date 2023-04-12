@@ -1,3 +1,5 @@
+CMD_DOCKER	=	sudo docker
+CMD_COMPOSE	=	sudo docker-compose
 COMPOSE_DIR	=	./srcs/docker-compose.yml
 WP_VOL_DIR	=	/home/dilopez-/data/wordpress_data
 DB_VOL_DIR	=	/home/dilopez-/data/mariadb_data
@@ -10,27 +12,30 @@ RESET		=	$(shell tput -Txterm sgr0)
 all:
 	@sudo mkdir -p $(WP_VOL_DIR)
 	@sudo mkdir -p $(DB_VOL_DIR)
-	@sudo docker-compose -f $(COMPOSE_DIR) up -d
+	@$(CMD_COMPOSE) -f $(COMPOSE_DIR) up -d
 
 list:	
 	@echo "$(YELLOW)\n-------------- Lista de contenedores --------------\n$(RESET)"
-	@sudo docker ps -a
+	@$(CMD_DOCKER) ps -a
 
 list_volumes:
 	@echo "$(YELLOW)\n---------------- Lista de volúmenes ---------------\n$(RESET)"
-	@sudo docker volume ls
+	@$(CMD_DOCKER) volume ls
 
 stop: 
-	@sudo docker-compose -f $(COMPOSE_DIR) stop
+	@$(CMD_COMPOSE) -f $(COMPOSE_DIR) stop
 
 start: 
-	@sudo docker-compose -f $(COMPOSE_DIR) start
+	@$(CMD_COMPOSE) -f $(COMPOSE_DIR) start
+
+re: clean all
 
 clean: 
-	@sudo docker-compose -f $(COMPOSE_DIR) down
-	@sudo docker rmi -f srcs-nginx
+	@$(CMD_COMPOSE) -f $(COMPOSE_DIR) down
+	@if [ -n "$$($(CMD_DOCKER) images -qa)" ]; then $(CMD_DOCKER) rmi -f $$($(CMD_DOCKER) images -qa); fi
+	@if [ -n "$$($(CMD_DOCKER) volume ls -q)" ]; then $(CMD_DOCKER) volume rm -f $$($(CMD_DOCKER) volume ls -q); fi
 	@sudo rm -rf $(WP_VOL_DIR)
 	@sudo rm -rf $(DB_VOL_DIR)
 	@echo "$(GREEN)Limpiado con exito!$(RESET)"
 
-.PHONY: all list list_volumes stop start clean
+.PHONY: all list list_volumes stop start re clean

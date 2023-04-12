@@ -17,8 +17,11 @@ RUN chmod 777 /var/run/mysqld
 # Indicar que puerto usa el contenedor (no lo publica)
 EXPOSE 3306
 
-# Copiar el script que crea la base de datos
-COPY ./tools/mariadb_script.sh /usr/local/bin/
+# Copiar el script que crea la base de datos y dar permisos de ejecución
+COPY ./conf/mariadb_script.sh /usr/local/bin/mariadb_script.sh
+RUN chmod +x /usr/local/bin/mariadb_script.sh
+
+# Ejecutar el script
 ENTRYPOINT ["mariadb_script.sh"]
 
 # Inicar mariadb y permitir que la base

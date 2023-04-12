@@ -2,7 +2,7 @@
 FROM debian:buster
 
 # Actualizar e instalar nginx y openssl
-RUN apt -y update && apt install -y nginx && apt install openssl -y
+RUN apt-get -y update && apt-get install -y nginx && apt-get install openssl -y
 
 # Generar certificado SSL propio
 # req -x509:        Indica que se creará un certificado autofirmado
@@ -17,6 +17,7 @@ RUN openssl req -x509 -newkey rsa:4096 -nodes -keyout /etc/ssl/private/nginx-pri
 
 # Copiar la configuración del nginx al contenedor
 COPY ./conf/nginx.conf /etc/nginx/sites-available/default
+COPY ./conf/index.html /var/www/html/index.html
 
 # Indicar que puerto usa el contenedor (no lo publica)
 EXPOSE 443
