@@ -12,6 +12,7 @@ RESET		=	$(shell tput -Txterm sgr0)
 all:
 	@sudo mkdir -p $(WP_VOL_DIR)
 	@sudo mkdir -p $(DB_VOL_DIR)
+	@$(CMD_DOCKER) pull debian:buster
 	@$(CMD_COMPOSE) -f $(COMPOSE_DIR) up -d
 
 list:	

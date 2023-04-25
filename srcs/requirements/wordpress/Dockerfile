@@ -13,14 +13,17 @@ FROM debian:buster
 # php-mbstring: Extensión de PHP para la manipulación de caracteres multibyte
 
 RUN apt-get update -y && apt-get -y install \
-wget php php-cgi php-mysql php-fpm php-pdo php-gd php-cli php-mbstring
+curl wget php php-cgi php-mysql php-fpm php-pdo php-gd php-cli php-mbstring
 
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN cp wp-cli.phar /usr/local/bin/wp
 
 # Crear la carpeta donde habilitará php start
 RUN mkdir /run/php
 
 # # Copiar el archivo de configuración de WordPress
-COPY ./conf/www.conf /var/www/html/www.conf
+COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/
 
 # Copiar y ejecutar el script 
 COPY ./conf/wordpress_script.sh /usr/local/bin/wordpress_script.sh
