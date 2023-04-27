@@ -16,9 +16,7 @@ RUN apt-get -y update && apt-get install -y nginx && apt-get install openssl -y
 RUN openssl req -x509 -newkey rsa:4096 -nodes -keyout /etc/ssl/private/nginx-private-key.pem -out /etc/ssl/certs/nginx-certificate-key.pem -subj "/C=ES/L=URDULIZ/O=42/OU=dilopez-/CN=dilopez-.42.fr" -days 365
 
 # Copiar la configuración del nginx al contenedor
-# COPY conf/nginx.conf /etc/nginx/conf.d
 COPY ./conf/nginx.conf /etc/nginx/sites-available/default
-# COPY ./conf/index.html /var/www/html/index.html
 
 # Indicar que puerto usa el contenedor (no lo publica)
 EXPOSE 443

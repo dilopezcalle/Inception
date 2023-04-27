@@ -13,7 +13,7 @@ FROM debian:buster
 # php-mbstring: Extensión de PHP para la manipulación de caracteres multibyte
 
 RUN apt-get update -y && apt-get -y install \
-curl wget php php-cgi php-mysql php-fpm php-pdo php-gd php-cli php-mbstring
+php-fpm php-mysql curl
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
@@ -31,7 +31,7 @@ RUN chmod +x /usr/local/bin/wordpress_script.sh
 ENTRYPOINT ["wordpress_script.sh"]
 
 # # Cambiar el espacio de trabajo
-WORKDIR /var/www/html/
+WORKDIR /var/www/html
 
 # # Indicar que puerto usa el contenedor (no lo publica)
 EXPOSE 9000
