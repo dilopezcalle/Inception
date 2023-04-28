@@ -17,7 +17,13 @@ services:
     container_name: "wordpress"
     env_file:
       - .env
-    build: ${WORDPRESS_FOLDER}
+    build: 
+      context: ${WORDPRESS_FOLDER}
+      args:
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_HOSTNAME: ${MYSQL_HOSTNAME}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     depends_on:
       - mariadb
     volumes:

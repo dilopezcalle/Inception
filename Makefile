@@ -13,7 +13,7 @@ all:
 	@sudo mkdir -p $(WP_VOL_DIR)
 	@sudo mkdir -p $(DB_VOL_DIR)
 	@$(CMD_DOCKER) pull debian:buster
-	@$(CMD_COMPOSE) -f $(COMPOSE_DIR) up -d
+	@$(CMD_COMPOSE) -f $(COMPOSE_DIR) up -d --build
 
 list:	
 	@echo "$(YELLOW)\n-------------- Lista de contenedores --------------\n$(RESET)"
