@@ -14,18 +14,12 @@ services:
     restart: always
 
   wordpress:
+    depends_on:
+      - mariadb
     container_name: "wordpress"
     env_file:
       - .env
-    build: 
-      context: ${WORDPRESS_FOLDER}
-      args:
-        MYSQL_DATABASE: ${MYSQL_DATABASE}
-        MYSQL_HOSTNAME: ${MYSQL_HOSTNAME}
-        MYSQL_USER: ${MYSQL_USER}
-        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    depends_on:
-      - mariadb
+    build: ${WORDPRESS_FOLDER}
     volumes:
       - wordpress_data:/var/www/html
     networks:
@@ -33,14 +27,18 @@ services:
     restart: always
 
   nginx:
+    depends_on:
+      - wordpress
     container_name: "nginx"
     env_file:
       - .env
-    build: ${NGINX_FOLDER}
+    build:
+      context: ${NGINX_FOLDER}
+      args:
+        PRIVATE_CERT_DIR: ${PRIVATE_CERT_DIR}
+        PUBLIC_CERT_DIR: ${PUBLIC_CERT_DIR}
     ports:
       - "443:443"
-    depends_on:
-      - wordpress
     volumes:
       - wordpress_data:/var/www/html
     networks:

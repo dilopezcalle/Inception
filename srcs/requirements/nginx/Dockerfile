@@ -1,6 +1,9 @@
 # Penultima imagen de Debian
 FROM debian:buster
 
+ARG PRIVATE_CERT_DIR
+ARG PUBLIC_CERT_DIR
+
 # Actualizar e instalar nginx y openssl
 RUN apt-get -y update && apt-get install -y nginx && apt-get install openssl -y
 
@@ -13,7 +16,8 @@ RUN apt-get -y update && apt-get install -y nginx && apt-get install openssl -y
 # -subj:            Información para el certificado
 # -days 365:        Número de días de validez del certificado
 
-RUN openssl req -x509 -newkey rsa:4096 -nodes -keyout /etc/ssl/private/nginx-private-key.pem -out /etc/ssl/certs/nginx-certificate-key.pem -subj "/C=ES/L=URDULIZ/O=42/OU=dilopez-/CN=dilopez-.42.fr" -days 365
+RUN openssl req -x509 -newkey rsa:4096 -nodes -keyout ${PRIVATE_CERT_DIR} \
+    -out ${PUBLIC_CERT_DIR} -subj "/C=ES/L=URDULIZ/O=42/OU=dilopez-/CN=dilopez-.42.fr" -days 365
 
 # Copiar la configuración del nginx al contenedor
 COPY ./conf/nginx.conf /etc/nginx/sites-available/default

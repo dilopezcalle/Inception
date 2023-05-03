@@ -1,8 +1,19 @@
 #!/bin/bash
 
+# Cambiar el espacio de trabajo
 mkdir -p /var/www/html
 cd /var/www/html
 rm -rf *
+
+# Definir tiempo máximo de espera
+WAIT_TIME=${DB_WAIT_TIME:-60}
+
+# Espera hasta que el servicio MariaDB este disponible en el puerto 3306
+for i in $(seq 1 $WAIT_TIME); do
+  nc -z mariadb 3306 && echo "El contenedor 'mariadb' está disponible." && break
+  echo "Esperando que el contenedor 'mariadb' esté disponible..."
+  sleep 1
+done
 
 wp core download --allow-root
 

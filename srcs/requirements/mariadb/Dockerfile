@@ -23,7 +23,9 @@ COPY ./conf/mariadb_script.sh /usr/local/bin/mariadb_script.sh
 RUN chmod +x /usr/local/bin/mariadb_script.sh
 
 # Ejecutar el script
-ENTRYPOINT ["mariadb_script.sh"]
+# ENTRYPOINT ["mariadb_script.sh"]
 
-# Inicar mariadb y permitir que la base de datos se escuche desde cualquier sitio
-CMD ["mysqld", "--bind-address=0.0.0.0"]
+# Ejecutar el script, inicar mariadb y permitir que la 
+# base de datos se escuche desde cualquier sitio
+CMD ["sh", "-c", "mariadb_script.sh && mysqld --bind-address=0.0.0.0"]
+# CMD ["mysqld", "--bind-address=0.0.0.0"]

@@ -1,6 +1,6 @@
 CMD_DOCKER	=	sudo docker
 CMD_COMPOSE	=	sudo docker-compose
-COMPOSE_DIR	=	./srcs/docker-compose.yml
+COMPOSE_DIR	=	./srcs/docker-compose.yaml
 WP_VOL_DIR	=	/home/dilopez-/data/wordpress_data
 DB_VOL_DIR	=	/home/dilopez-/data/mariadb_data
 
