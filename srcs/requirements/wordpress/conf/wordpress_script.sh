@@ -24,9 +24,9 @@ sed -i "s/localhost/$MYSQL_HOSTNAME/g" wp-config-sample.php
 sed -i "s/database_name_here/$MYSQL_DATABASE/g" wp-config-sample.php
 mv wp-config-sample.php wp-config.php
 
-wp core install --url=$WP_DOMAIN/ --title=$WP_TITLE --admin_user=$WP_USER --admin_password=$WP_PASSWORD --admin_email=$WP_MAIL --skip-email --allow-root
+wp core install --url=$WP_DOMAIN/ --title=$WP_TITLE --admin_user=$WP_ROOT_USER --admin_password=$WP_ROOT_PASSWORD --admin_email=$WP_ROOT_MAIL --skip-email --allow-root
 wp theme install astra --activate --allow-root
-wp plugin update --all --allow-root
+wp plugin update --all --allow-root --path=/var/www/html --dir=wp-content/themes
 
 # Permitir que se ejecuten comandos al finalizar
 exec "$@"
